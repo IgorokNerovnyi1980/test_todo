@@ -1,13 +1,13 @@
 import Type from '../types'
 
-const testData = [
-  { id: 't1', label: 'fist todo', comments: [] },
-  { id: 't2', label: 'second todo', comments: [] },
-  { id: 't3', label: 'third todo', comments: [] },
-]
-
 const initialState = {
-  list: null,
+  list: [],
+  testData: [
+    { id: 't1', label: 'fist todo', comments: [] },
+    { id: 't2', label: 'second todo', comments: [] },
+    { id: 't3', label: 'third todo', comments: [] },
+  ],
+  current: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -17,6 +17,33 @@ const reducer = (state = initialState, action) => {
         ...state,
         list: action.payload,
       }
+    case Type.SET_CURRENT:
+      return {
+        ...state,
+        current: action.id,
+      }
+    case Type.CREATE:
+      return {
+        ...state,
+        list: [...state.list, action.todo],
+      }
+    case Type.DELETE:
+      return {
+        ...state,
+        list: state.list.filter(({ id }) => id !== action.id),
+      }
+    case Type.SET_COMMENT:
+      return {
+        ...state,
+        list: state.list.map(obj => {
+          if (action.id === obj.id) {
+            return { ...obj, comments: [...obj.comments, action.comment] }
+          } else {
+            return obj
+          }
+        }),
+      }
+
     default:
       return state
   }

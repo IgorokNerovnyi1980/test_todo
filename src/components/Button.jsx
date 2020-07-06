@@ -6,12 +6,21 @@ const Btn = styled.button`
   min-height: ${props => (props.height ? '4.2rem' : 'unset')};
   border: 0.1rem solid ${({ theme, bg }) => theme[bg]};
   border-radius: ${props => props.theme.smollBR};
-  background-color: ${({ theme, bg }) => theme[bg]};
+  background-color: ${({ theme, bg, del }) =>
+    del ? theme.lightBg : theme[bg]};
   color: ${({ theme, bg, del }) => (del ? theme[bg] : theme.mainBG)};
   cursor: pointer;
   transition: 0.2s ease;
+  ${({ del, theme }) =>
+    del
+      ? `:hover{background-color: ${theme.deleteBg}; color: ${theme.mainBG}}`
+      : null};
   :active {
     transform: scale(0.97);
+  }
+  :disabled {
+    cursor: default;
+    background-color: ${props => props.theme.lightBg};
   }
 `
 
@@ -21,9 +30,17 @@ const Button = ({
   type = 'button',
   label = 'default',
   height = false,
+  disabled = false,
   onClick = () => {},
 }) => (
-  <Btn height={height} del={del} bg={bg} type={type} onClick={onClick}>
+  <Btn
+    height={height}
+    del={del}
+    bg={bg}
+    type={type}
+    onClick={onClick}
+    disabled={disabled}
+  >
     {label}
   </Btn>
 )

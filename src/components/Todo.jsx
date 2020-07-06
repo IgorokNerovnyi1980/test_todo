@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Screen from './Screen'
 import CreateNew from './CreateNew'
+import Item from './Item'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -26,16 +27,36 @@ const Wrapper = styled.div`
 
 const Todo = () => {
   const todoList = useSelector(store => store.todo.list)
+  const currentId = useSelector(store => store.todo.current)
+  const dispatch = useDispatch()
+  const [current, setCurrent] = useState(null)
+
+  useEffect(() => {
+    if (todoList && todoList.length > 0)
+      setCurrent(todoList.find(({ id }) => currentId === id).id)
+  }, [currentId]) //eslint-disable-line
+
+  useEffect(() => {
+    if (currentId === null && todoList && todoList.length > 0)
+      dispatch({ type: 'SET_CURRENT', id: todoList[0].id })
+  }, [currentId, dispatch, todoList])
+
   console.log('todo', todoList)
+
   return (
     <Wrapper>
       <Screen>
         <h4>List</h4>
         <CreateNew />
+        {todoList &&
+          todoList.length > 0 &&
+          todoList.map(obj => (
+            <Item key={obj.id} item={obj} currentId={currentId} />
+          ))}
       </Screen>
       <Screen>
-        <h4>Comment</h4>
-        <CreateNew comment />
+        <h4>{current ? `Comment  for: ${current}` : 'Comment'}</h4>
+        <CreateNew comment id={current} />
       </Screen>
     </Wrapper>
   )

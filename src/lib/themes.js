@@ -1,9 +1,8 @@
-import { Bg, baseBg, Fs, Shdw, other } from './variables'
+import { Bg, baseBg, Shdw, other } from './variables'
 
 const base = {
   ...Bg,
   ...baseBg,
-  ...Fs,
   ...Shdw,
   ...other,
 }
