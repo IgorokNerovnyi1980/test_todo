@@ -1,11 +1,13 @@
 export const Bg = {
   mainBG: '#fff',
   secondaryBG: '#000',
+  accentBG: '#23968f',
 }
 export const baseBg = {
   lightBg: 'lightgrey',
   darkBg: 'grey',
-  accentBg: '#c1392b',
+  deleteBg: '#c1392b',
+  accentBg: 'blue',
 }
 
 export const Fs = {
@@ -15,14 +17,12 @@ export const Fs = {
   accentFZ: '1.3em',
 }
 export const Shdw = {
-  bottomShadow: '0px 5px 6px 0px rgba(65,65,65,0.20)',
-  topShadow: '0px -3px 6px 0px rgba(65,65,65,0.20)',
+  boxShadow: '0px 3px 7px 0px rgba(65,65,65,0.20)',
 }
 export const other = {
-  gridSidePad: ' 0 5%',
   mainPad: '1rem',
   smollPad: '0.5rem',
-  smollBR: '0.5rem',
+  smollBR: '0.3rem',
 }
 
 export default {
