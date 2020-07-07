@@ -39,7 +39,6 @@ const Quantity = styled.p`
 
 const Item = ({ item, currentId }) => {
   const dispatch = useDispatch()
-  // const current = useSelector(store => store.todo.current)
   const todoList = useSelector(store => store.todo.list)
   const { label, comments, id } = item
 

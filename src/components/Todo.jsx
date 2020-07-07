@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import Screen from './Screen'
 import CreateNew from './CreateNew'
 import Item from './Item'
+import CommentItem from './CommentItem'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -29,6 +30,7 @@ const Todo = () => {
   const todoList = useSelector(store => store.todo.list)
   const current = useSelector(store => store.todo.current)
   const dispatch = useDispatch()
+  const [commentList, setCommentList] = useState(null)
 
   useEffect(() => {
     const isHaveData = JSON.parse(localStorage.getItem('todoList'))
@@ -42,7 +44,15 @@ const Todo = () => {
     localStorage.setItem('todoList', JSON.stringify(todoList))
   }, [todoList])
 
-  useEffect(() => {}, [current])
+  useEffect(() => {
+    const isHave = todoList.map(obj => obj.id).includes(current)
+    console.log('todo', todoList)
+    console.log('current', current, typeof current)
+    console.log('isHave', isHave)
+
+    if (current && isHave)
+      setCommentList(todoList.find(({ id }) => current === id).comments)
+  }, [current, todoList])
 
   return (
     <Wrapper>
@@ -57,6 +67,9 @@ const Todo = () => {
       </Screen>
       <Screen>
         <h4>{current ? `Comment  for: ${current}` : 'Comment'}</h4>
+        {commentList &&
+          commentList.length > 0 &&
+          commentList.map(obj => <CommentItem key={obj.id} comment={obj} />)}
         <CreateNew comment id={current} />
       </Screen>
     </Wrapper>

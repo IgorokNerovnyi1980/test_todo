@@ -12,12 +12,41 @@ const Wrapper = styled.form`
   align-items: center;
 `
 const ColorPic = styled.div`
+  position: relative;
   width: 4.2rem;
   min-height: 4.2rem;
   padding: ${props => props.theme.smollPad};
   border: 0.1rem solid ${props => props.theme.darkBg};
   border-radius: ${props => props.theme.smollBR};
+  background-color: ${props => props.bg};
 `
+
+const Picker = styled.div`
+  position: absolute;
+  top: -9rem;
+  right: -9rem;
+  width: 10rem;
+  height: 6rem;
+  background-color: grey;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  button {
+    width: 3rem;
+    height: 3rem;
+    cursor: poiner;
+  }
+  .black {
+    background-color: black;
+  }
+  .green {
+    background-color: green;
+  }
+  .red {
+    background-color: red;
+  }
+`
+
 const Input = styled.input`
   width: 70%;
   padding: ${props => props.theme.smollPad};
@@ -38,10 +67,20 @@ const CreateNew = ({ comment = false, id = null }) => {
   const [typeAction, setTypeAction] = useState('new')
   const [inputValue, setInputValue] = useState('')
   const [areaValue, setAreaValue] = useState('')
+  const [colorComment, setColorComment] = useState('black')
+  const [isShowPicker, setIsShowPicker] = useState(false)
 
   useEffect(() => {
     if (comment) setTypeAction('comment')
   }, [comment, id])
+
+  const onSetColorComment = value => {
+    setColorComment(value)
+  }
+
+  const togglerPicker = () => {
+    setIsShowPicker(!isShowPicker)
+  }
 
   const onChange = e => {
     const name = e.target.name
@@ -82,7 +121,15 @@ const CreateNew = ({ comment = false, id = null }) => {
         setInputValue('')
         break
       case 'comment':
-        await dispatch({ type: 'SET_COMMENT', id, comment: setAreaValue })
+        await dispatch({
+          type: 'SET_COMMENT',
+          id,
+          comment: {
+            id: shortid.generate(),
+            text: areaValue,
+            color: colorComment,
+          },
+        })
         setAreaValue('')
         break
       default:
@@ -103,7 +150,26 @@ const CreateNew = ({ comment = false, id = null }) => {
 
   return (
     <Wrapper onSubmit={onSubmit}>
-      {comment && <ColorPic />}
+      {comment && (
+        <ColorPic onClick={togglerPicker} bg={colorComment}>
+          {isShowPicker && (
+            <Picker>
+              <button
+                className="green"
+                onClick={() => onSetColorComment('green')}
+              />
+              <button
+                className="black"
+                onClick={() => onSetColorComment('black')}
+              />
+              <button
+                className="red"
+                onClick={() => onSetColorComment('red')}
+              />
+            </Picker>
+          )}
+        </ColorPic>
+      )}
       {comment ? (
         <TextArea
           placeholder="write comment..."
