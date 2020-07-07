@@ -63,7 +63,6 @@ const TextArea = styled.textarea`
 
 const CreateNew = ({ comment = false, id = null }) => {
   const dispatch = useDispatch()
-  const buttonNew = document.querySelector('#new')
   const [typeAction, setTypeAction] = useState('new')
   const [inputValue, setInputValue] = useState('')
   const [areaValue, setAreaValue] = useState('')
@@ -98,17 +97,22 @@ const CreateNew = ({ comment = false, id = null }) => {
     }
   }
 
-  const onSubmit = async (type, id, e) => {
-    e.preventDefault()
-
+  const validation = type => {
     if (inputValue.length <= 0 && type === 'new') {
       alert('please write title')
-      return
-    }
-    if (areaValue.length <= 0 && type === 'comment') {
+      return false
+    } else if (areaValue.length <= 0 && type === 'comment') {
       alert('please write comment')
-      return
+      return false
+    } else {
+      return true
     }
+  }
+
+  const onSubmit = async (type, id, e) => {
+    e.preventDefault()
+    const isData = validation(type)
+    if (!isData) return
     switch (type) {
       case 'new':
         const newId = shortid.generate()
@@ -136,17 +140,6 @@ const CreateNew = ({ comment = false, id = null }) => {
         break
     }
   }
-
-  const onPress = e => {
-    if (e.code === 'Enter' && e.ctrlKey)
-      document.querySelector('#comment').click()
-    if (e.code === 'Enter' && !e.ctrlKey && buttonNew) buttonNew.click()
-  }
-
-  useEffect(() => {
-    document.addEventListener('keydown', onPress)
-    return () => document.removeEventListener('keydown', onPress)
-  }, []) //eslint-disable-line
 
   return (
     <Wrapper onSubmit={onSubmit}>

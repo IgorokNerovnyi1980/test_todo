@@ -46,10 +46,6 @@ const Item = ({ item, currentId }) => {
     if (todoList.length <= 0) {
       dispatch({ type: 'SET_CURRENT', id: null })
     } else {
-      console.log(
-        'else',
-        todoList.map(obj => obj.id),
-      )
       dispatch({ type: 'SET_CURRENT', id: todoList[0].id })
     }
   }

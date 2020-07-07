@@ -32,6 +32,17 @@ const Todo = () => {
   const dispatch = useDispatch()
   const [commentList, setCommentList] = useState(null)
 
+  const onPress = e => {
+    if (e.code === 'Enter' && e.ctrlKey)
+      document.querySelector('#comment').click()
+    if (e.code === 'Enter' && !e.ctrlKey) document.querySelector('#new').click()
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', onPress)
+    return () => window.removeEventListener('keydown', onPress)
+  }, []) //eslint-disable-line
+
   useEffect(() => {
     const isHaveData = JSON.parse(localStorage.getItem('todoList'))
     if (isHaveData && isHaveData.length > 0) {
@@ -46,10 +57,6 @@ const Todo = () => {
 
   useEffect(() => {
     const isHave = todoList.map(obj => obj.id).includes(current)
-    console.log('todo', todoList)
-    console.log('current', current, typeof current)
-    console.log('isHave', isHave)
-
     if (current && isHave)
       setCommentList(todoList.find(({ id }) => current === id).comments)
   }, [current, todoList])

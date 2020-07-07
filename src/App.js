@@ -1,7 +1,7 @@
-import React from "react";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import themes from "./lib/themes";
-import TodoPage from "./pages/TodoPage";
+import React from 'react'
+import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import themes from './lib/themes'
+import TodoPage from './pages/TodoPage'
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -59,7 +59,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
   }
 }
-`;
+`
 
 function App() {
   return (
@@ -67,7 +67,7 @@ function App() {
       <GlobalStyle />
       <TodoPage />
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App
