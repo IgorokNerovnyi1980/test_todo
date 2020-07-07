@@ -23,7 +23,7 @@ const ColorPic = styled.div`
 
 const Picker = styled.div`
   position: absolute;
-  top: -9rem;
+  bottom: -6rem;
   right: -9rem;
   width: 10rem;
   height: 6rem;
