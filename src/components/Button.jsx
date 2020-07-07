@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react";
+import styled from "styled-components";
 
 const Btn = styled.button`
-  padding: ${props => props.theme.smollPad};
-  min-height: ${props => (props.height ? '4.2rem' : 'unset')};
+  padding: ${(props) => props.theme.smollPad};
+  min-height: ${(props) => (props.height ? "4.2rem" : "unset")};
   border: 0.1rem solid ${({ theme, bg }) => theme[bg]};
-  border-radius: ${props => props.theme.smollBR};
+  border-radius: ${(props) => props.theme.smollBR};
   background-color: ${({ theme, bg, del }) =>
     del ? theme.lightBg : theme[bg]};
   color: ${({ theme, bg, del }) => (del ? theme[bg] : theme.mainBG)};
@@ -20,17 +20,18 @@ const Btn = styled.button`
   }
   :disabled {
     cursor: default;
-    background-color: ${props => props.theme.lightBg};
+    background-color: ${(props) => props.theme.lightBg};
   }
-`
+`;
 
 const Button = ({
   del = false,
-  bg = 'accentBg',
-  type = 'button',
-  label = 'default',
+  bg = "accentBg",
+  type = "button",
+  label = "default",
   height = false,
   disabled = false,
+  id,
   onClick = () => {},
 }) => (
   <Btn
@@ -39,10 +40,11 @@ const Button = ({
     bg={bg}
     type={type}
     onClick={onClick}
+    id={id}
     disabled={disabled}
   >
     {label}
   </Btn>
-)
+);
 
-export default Button
+export default Button;

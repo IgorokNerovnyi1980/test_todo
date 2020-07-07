@@ -1,13 +1,13 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useSelector, useDispatch } from 'react-redux'
-import Button from './Button'
+import React from "react";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import Button from "./Button";
 
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: 1rem;
-  padding: ${props => props.theme.smollPad};
+  padding: ${(props) => props.theme.smollPad};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,32 +24,30 @@ const Wrapper = styled.div`
   h5 {
     margin-left: 5%;
   }
-`
+`;
 
 const Quantity = styled.p`
   position: absolute;
   top: 50%;
   right: 17%;
-  padding: ${props => props.theme.smollPad};
+  padding: ${(props) => props.theme.smollPad};
   transform: translateY(-50%);
-  background-color: ${props => props.theme.accentBG};
-  border-radius: ${props => props.theme.midBR};
-  color: ${props => props.theme.mainBG};
-`
+  background-color: ${(props) => props.theme.accentBG};
+  border-radius: ${(props) => props.theme.midBR};
+  color: ${(props) => props.theme.mainBG};
+`;
 
 const Item = ({ item, currentId }) => {
-  const dispatch = useDispatch()
-  const { label, comments, id } = item
-  const list = useSelector(store => store.todo.list)
+  const dispatch = useDispatch();
+  const { label, comments, id } = item;
 
-  const onDeleteTodo = async id => {
-    await dispatch({ type: 'DELETE', id })
-    localStorage.setItem('todoList', JSON.stringify(list))
-  }
+  const onDeleteTodo = (id) => {
+    dispatch({ type: "DELETE", id });
+  };
 
   const setCurrent = () => {
-    dispatch({ type: 'SET_CURRENT', id })
-  }
+    dispatch({ type: "SET_CURRENT", id });
+  };
   return (
     <Wrapper active={id === currentId} onClick={setCurrent}>
       <h5>{label}</h5>
@@ -61,6 +59,6 @@ const Item = ({ item, currentId }) => {
         onClick={() => onDeleteTodo(id)}
       />
     </Wrapper>
-  )
-}
-export default Item
+  );
+};
+export default Item;

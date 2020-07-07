@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import { useDispatch } from 'react-redux'
-
-import themes from './lib/themes'
-import TodoPage from './pages/TodoPage'
+import React from "react";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
+import themes from "./lib/themes";
+import TodoPage from "./pages/TodoPage";
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -61,29 +59,15 @@ const GlobalStyle = createGlobalStyle`
     font-size: 1.6rem;
   }
 }
-`
+`;
 
 function App() {
-  const dispatch = useDispatch()
-  const [isRender, setIsRender] = useState(true)
-
-  useEffect(() => {
-    const isHaveData = JSON.parse(localStorage.getItem('todoList'))
-    console.log('isHaveData', isHaveData)
-
-    if (isHaveData) {
-      dispatch({ type: 'GET_TODO', payload: isHaveData })
-    }
-
-    setIsRender(true)
-  }, []) // eslint-disable-line
-
   return (
     <ThemeProvider theme={themes.base}>
       <GlobalStyle />
-      {isRender && <TodoPage />}
+      <TodoPage />
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
