@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import Button from "./Button";
+import React from 'react'
+import styled from 'styled-components'
+import { useDispatch, useSelector } from 'react-redux'
+import Button from './Button'
 
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
   margin-bottom: 1rem;
-  padding: ${(props) => props.theme.smollPad};
+  padding: ${props => props.theme.smollPad};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,30 +24,49 @@ const Wrapper = styled.div`
   h5 {
     margin-left: 5%;
   }
-`;
+`
 
 const Quantity = styled.p`
   position: absolute;
   top: 50%;
   right: 17%;
-  padding: ${(props) => props.theme.smollPad};
+  padding: ${props => props.theme.smollPad};
   transform: translateY(-50%);
-  background-color: ${(props) => props.theme.accentBG};
-  border-radius: ${(props) => props.theme.midBR};
-  color: ${(props) => props.theme.mainBG};
-`;
+  background-color: ${props => props.theme.accentBG};
+  border-radius: ${props => props.theme.midBR};
+  color: ${props => props.theme.mainBG};
+`
 
 const Item = ({ item, currentId }) => {
-  const dispatch = useDispatch();
-  const { label, comments, id } = item;
+  const dispatch = useDispatch()
+  // const current = useSelector(store => store.todo.current)
+  const todoList = useSelector(store => store.todo.list)
+  const { label, comments, id } = item
 
-  const onDeleteTodo = (id) => {
-    dispatch({ type: "DELETE", id });
-  };
+  const setCurrentTodo = id => {
+    if (todoList.length <= 0) {
+      dispatch({ type: 'SET_CURRENT', id: null })
+    } else {
+      console.log(
+        'else',
+        todoList.map(obj => obj.id),
+      )
+      dispatch({ type: 'SET_CURRENT', id: todoList[0].id })
+    }
+  }
+
+  const deleteTodo = async id => {
+    await dispatch({ type: 'DELETE', id })
+    setCurrentTodo()
+  }
+
+  const onDeleteTodo = id => {
+    deleteTodo(id)
+  }
 
   const setCurrent = () => {
-    dispatch({ type: "SET_CURRENT", id });
-  };
+    dispatch({ type: 'SET_CURRENT', id })
+  }
   return (
     <Wrapper active={id === currentId} onClick={setCurrent}>
       <h5>{label}</h5>
@@ -59,6 +78,6 @@ const Item = ({ item, currentId }) => {
         onClick={() => onDeleteTodo(id)}
       />
     </Wrapper>
-  );
-};
-export default Item;
+  )
+}
+export default Item

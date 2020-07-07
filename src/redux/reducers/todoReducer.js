@@ -2,11 +2,6 @@ import Type from '../types'
 
 const initialState = {
   list: [],
-  testData: [
-    { id: 't1', label: 'fist todo', comments: [] },
-    { id: 't2', label: 'second todo', comments: [] },
-    { id: 't3', label: 'third todo', comments: [] },
-  ],
   current: null,
 }
 
